@@ -1,0 +1,16 @@
+{
+  "name": "noir-neutral",
+  "displayName": "Noir Neutral",
+  "description": "Neutral-first macOS adaptation of Cosmic Noir, with sage indicators and orange errors.",
+  "version": "1.0.0",
+  "publisher": "local",
+  "license": "MIT",
+  "homepage": "https://github.com/atraxsrc/cosmic-noir-theme",
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["Themes"],
+  "contributes": {
+    "themes": [
+      { "label": "Noir Neutral", "uiTheme": "vs-dark", "path": "./themes/noir-neutral-color-theme.json" }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+cd ~
+launch --title "Home Summary" --var start_page=terminal --env START_PAGE_TERMINAL=1 /bin/zsh -l
+new_os_window
+cd ~
+launch --title btop --var start_page=btop /opt/homebrew/bin/btop
+new_os_window
+cd ~
+launch --title Television --var start_page=television --env START_PAGE_TELEVISION=1 --env PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin /bin/sh -c '"$HOME/.config/television/browse.py"; exec /bin/zsh -l'

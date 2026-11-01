@@ -1,0 +1,19 @@
+@import "sine-mods/Arc-2.0/userContent.css";
+
+@-moz-document url-prefix("chrome://devtools/") {
+  :root {
+    --monospace-font-family: "SF Mono", monospace !important;
+  }
+}
+
+/* Keep Arc's UI font out of code and syntax tokens. */
+:root :is(
+  pre, code, kbd, samp, .monospace, [monospace],
+  .devtools-monospace, .theme-monospace, .ruleview,
+  .webconsole-output, .jsterm-input-container,
+  .CodeMirror-code, .CodeMirror-linenumber, .cm-content, .cm-gutterElement
+) {
+  &, & * {
+    font-family: "SF Mono", monospace !important;
+  }
+}

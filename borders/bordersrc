@@ -1,0 +1,5 @@
+#!/bin/bash
+export PATH="/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+borders style=round width=3.0 hidpi=on \
+  active_color=0xff88a57d inactive_color=0xff525252 \
+  blacklist=sketchybar

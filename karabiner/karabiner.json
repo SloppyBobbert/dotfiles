@@ -1,0 +1,290 @@
+{
+  "global": {
+    "show_in_menu_bar": false
+  },
+  "profiles": [
+    {
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "Hyper Key: Caps Lock \u2192 \u2303\u2325\u2318\u21e7 (hold) / Esc (tap)",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "name": "right_shift_double_tap",
+                    "type": "variable_unless",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "caps_lock",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_caps_lock",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_shift",
+                    "modifiers": [
+                      "left_control",
+                      "left_option",
+                      "left_command"
+                    ]
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_caps_lock",
+                      "value": 0
+                    }
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "escape"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Hyper Key: Right Cmd \u2192 left control + left option + left command (\u2303\u2325\u2318)",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "right_command",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_right_command",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_control",
+                    "modifiers": [
+                      "left_option",
+                      "left_command"
+                    ]
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_right_command",
+                      "value": 0
+                    }
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Hyper Key: Tab (held down) \u2192 left control + left command (\u2303\u2318)",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "tab"
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_tab_held_down",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_control",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "hyper_tab_held_down",
+                      "value": 0
+                    }
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "tab"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Mac OSX: double-tap right shift key \u2192 caps lock toggle",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "name": "right_shift pressed",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "right_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "right_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "right_shift pressed",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "right_shift"
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "right_shift pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "right_shift pressed",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Map Left Shift + Esc -> Caps Lock",
+            "enabled": false,
+            "manipulators": [
+              {
+                "description": "Map Left Shift + Esc -> Caps Lock",
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Caps Lock to Esc and Ctrl",
+            "enabled": false,
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "caps_lock",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_control"
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "escape"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Restore Caps Lock as Esc",
+            "enabled": false,
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          }
+        ]
+      },
+      "virtual_hid_keyboard": {
+        "keyboard_type_v2": "ansi"
+      },
+      "name": "Desktop",
+      "selected": true
+    }
+  ]
+}

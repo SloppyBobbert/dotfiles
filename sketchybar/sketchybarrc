@@ -1,0 +1,108 @@
+#!/bin/bash
+# Based on gcodenowski/dotfiles, revision f4f3dad0116d6d4b42fca156ea15b28053dbc960.
+export PATH="/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+source "$CONFIG_DIR/colors.sh"
+PLUGIN="$CONFIG_DIR/plugins/update.sh"
+FONT="SF Mono:Medium:12.0"
+
+# The built-in display has a measured 32-point notch.
+sketchybar --bar position=top height=32 notch_display_height=32 y_offset=0 margin=0 corner_radius=0 \
+  color="$BAR_BACKGROUND" blur_radius=16 border_width=0 shadow=off sticky=on \
+  topmost=off show_in_fullscreen=off padding_left=10 padding_right=10 \
+  notch_width=216 notch_offset=0 font_smoothing=on \
+  --default padding_left=0 padding_right=0 \
+  icon.font="$FONT" icon.color="$DIM" icon.padding_left=4 icon.padding_right=6 \
+  label.font="$FONT" label.color="$TEXT" label.padding_left=0 label.padding_right=4 \
+  background.color="$CONTAINER" background.drawing=off background.corner_radius=0 \
+  background.border_width=0
+
+sketchybar --add event aerospace_workspace_change --add event aerospace_focus_change \
+  --add event media_refresh
+for sid in 1 2 3 4; do
+  case "$sid" in 1) roman=I ;; 2) roman=II ;; 3) roman=III ;; 4) roman=IV ;; esac
+  sketchybar --add item "space.$sid" left \
+    --set "space.$sid" width=28 padding_left=0 padding_right=0 \
+    background.padding_left=0 background.padding_right=0 \
+    icon="$roman" icon.font="SF Mono:Bold:12.0" icon.color="$SECONDARY" \
+    icon.width=28 icon.align=center icon.padding_left=0 icon.padding_right=0 \
+    label.drawing=off background.height=28 background.color="$TEXT" \
+    icon.background.color="$ACCENT" icon.background.height=2 \
+    icon.background.y_offset=-13 icon.background.corner_radius=0 icon.background.drawing=off \
+    click_script="aerospace workspace $sid" script="$PLUGIN workspace $sid" \
+    --subscribe "space.$sid" aerospace_workspace_change
+  if [ "$sid" != 4 ]; then
+    sketchybar --add item "gap.workspace.$sid" left \
+      --set "gap.workspace.$sid" width=6 icon.drawing=off label.drawing=off
+  fi
+done
+
+sketchybar --add item sep.left left \
+  --set sep.left width=20 icon='|' icon.color="$BORDER" icon.align=center \
+  icon.width=20 icon.padding_left=0 icon.padding_right=0 label.drawing=off \
+  --add item frontapp left \
+  --set frontapp width=520 icon="Desktop" icon.color="$ACCENT" icon.width=520 \
+  icon.font="SF Mono:Bold:12.0" icon.align=left \
+  icon.padding_left=0 icon.padding_right=0 \
+  icon.max_chars=64 label.drawing=off update_freq=15 script="$PLUGIN frontapp" \
+  --subscribe frontapp front_app_switched aerospace_focus_change aerospace_workspace_change system_woke
+
+# Right items are added from the outer edge towards the notch.
+sketchybar --add item clock right \
+  --set clock width=94 icon.drawing=off label.width=94 label.align=center \
+  label.padding_right=0 update_freq=15 script="$PLUGIN clock" \
+  --subscribe clock system_woke \
+  --add item sep.clock right \
+  --set sep.clock width=8 icon='|' icon.color="$BORDER" icon.width=8 icon.align=center \
+  icon.padding_left=0 icon.padding_right=0 label.drawing=off
+
+for metric in battery cpu memory volume; do
+  case "$metric" in
+    battery) short=BAT; width=68; frequency=60 ;;
+    cpu) short=CPU; width=140; frequency=15 ;;
+    memory) short=MEM; width=70; frequency=0 ;;
+    volume) short=VOL; width=70; frequency=0 ;;
+  esac
+  action="$metric"
+  [ "$metric" != cpu ] || action=stats
+  if [ "$metric" = cpu ]; then
+    sketchybar --add graph cpu right 60 --set cpu \
+      graph.color="$ACCENT" graph.fill_color="$GRAPH_FILL" graph.line_width=1.5 label.padding_left=10 \
+      background.drawing=on background.color="$CLEAR" background.height=22
+  else
+    sketchybar --add item "$metric" right
+  fi
+  sketchybar --set "$metric" width="$width" icon="$short" label="--" \
+    update_freq="$frequency" script="$PLUGIN $action"
+done
+sketchybar --set cpu click_script="open -a 'Activity Monitor'" \
+  --set memory click_script="open -a 'Activity Monitor'" \
+  --subscribe battery power_source_change system_woke \
+  --subscribe cpu system_woke \
+  --subscribe volume volume_change system_woke
+
+sketchybar --add item media.skip right \
+  --set media.skip width=28 icon='>|' icon.width=28 icon.align=center icon.color="$TEXT" \
+  icon.padding_left=0 icon.padding_right=0 label.drawing=off drawing=off \
+  click_script="$PLUGIN media-action next-track" \
+  --add item media.pause right \
+  --set media.pause width=28 icon='||' icon.width=28 icon.align=center icon.color="$TEXT" \
+  icon.padding_left=0 icon.padding_right=0 label.drawing=off drawing=off \
+  click_script="$PLUGIN media-action pause" \
+  --add item media right \
+  --set media width=116 icon.drawing=off label="" label.padding_left=8 label.max_chars=14 drawing=off \
+  updates=on update_freq=15 script="$PLUGIN media" \
+  --subscribe media system_woke display_change media_refresh \
+  --add bracket media.widget media media.pause media.skip \
+  --set media.widget background.drawing=on background.color="$CONTAINER" \
+  background.height=24 background.corner_radius=5 background.border_width=1 background.border_color="$BORDER" \
+  --add item vpn right \
+  --set vpn width=46 icon.drawing=off label=VPN label.color="$ACCENT" \
+  drawing=off updates=on update_freq=15 script="$PLUGIN vpn" \
+  --subscribe vpn wifi_change system_woke \
+  --add item layout left \
+  --set layout drawing=off updates=on update_freq=0 script="$PLUGIN layout" \
+  --subscribe layout display_change system_woke
+
+"$PLUGIN" layout
+sketchybar --update

@@ -1,0 +1,165 @@
+{
+  "$schema": "https://schema.linearmouse.app/0.10.2",
+  "schemes": [
+    {
+      "buttons": {
+        "mappings": [
+          {
+            "action": {
+              "keyPress": [
+                "command",
+                "v"
+              ]
+            },
+            "button": 3,
+            "command": false,
+            "control": false,
+            "option": false,
+            "shift": false
+          },
+          {
+            "action": {
+              "keyPress": [
+                "command",
+                "c"
+              ]
+            },
+            "button": 4,
+            "command": false,
+            "control": false,
+            "option": false,
+            "shift": false
+          }
+        ]
+      },
+      "if": {
+        "device": {
+          "category": "mouse",
+          "vendorID": 0,
+          "productID": 0,
+          "productName": "EXAMPLE_DEVICE_1"
+        }
+      },
+      "scrolling": {
+        "reverse": {
+          "vertical": false
+        }
+      }
+    },
+    {
+      "buttons": {
+        "clickDebouncing": {
+          "buttons": [],
+          "timeout": 50
+        },
+        "mappings": [
+          {
+            "action": {
+              "keyPress": [
+                "shift",
+                "command",
+                "tab"
+              ]
+            },
+            "button": 0,
+            "command": true,
+            "control": true,
+            "option": false,
+            "shift": false
+          },
+          {
+            "action": "auto",
+            "button": 0,
+            "command": true,
+            "control": true,
+            "option": true,
+            "shift": false
+          },
+          {
+            "action": {
+              "keyPress": [
+                "command",
+                "tab"
+              ]
+            },
+            "button": 0,
+            "command": true,
+            "control": true,
+            "option": true,
+            "shift": true
+          },
+          {
+            "action": "auto",
+            "button": 1,
+            "command": true,
+            "control": true,
+            "option": true,
+            "shift": true
+          },
+          {
+            "action": "auto",
+            "command": true,
+            "control": false,
+            "option": false,
+            "scroll": "left",
+            "shift": false
+          },
+          {
+            "action": "media.volumeUp",
+            "command": true,
+            "control": true,
+            "option": true,
+            "scroll": "down",
+            "shift": true
+          },
+          {
+            "action": "media.fastForward",
+            "command": true,
+            "control": true,
+            "option": true,
+            "scroll": "left",
+            "shift": true
+          },
+          {
+            "action": "media.volumeDown",
+            "command": true,
+            "control": true,
+            "option": true,
+            "scroll": "up",
+            "shift": true
+          },
+          {
+            "action": "media.rewind",
+            "command": true,
+            "control": true,
+            "option": true,
+            "scroll": "right",
+            "shift": true
+          }
+        ],
+        "universalBackForward": true
+      },
+      "if": {
+        "device": {
+          "category": "trackpad",
+          "vendorID": 0,
+          "productID": 0,
+          "productName": "EXAMPLE_DEVICE_2"
+        }
+      },
+      "pointer": {
+        "disableAcceleration": false
+      },
+      "scrolling": {
+        "modifiers": {
+          "vertical": {
+            "command": {
+              "scale": 1.5,
+              "type": "changeSpeed"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
